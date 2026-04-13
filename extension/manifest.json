@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "WebPulse Guardian",
+  "version": "1.0.0",
+  "description": "Advanced browser observability, performance monitoring, and security analysis.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "notifications",
+    "alarms",
+    "scripting",
+    "tabs",
+    "cookies",
+    "management"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_page": "control_panel.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

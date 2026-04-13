@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebPulse Guardian - Sentinel</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="sentinel-app">
+    <header class="main-header">
+      <div class="brand-info">
+        <div class="pulse-indicator"></div>
+        <div class="titles">
+          <h1>WebPulse Guardian <span>2.0</span></h1>
+          <p id="page-domain">Scanning page...</p>
+        </div>
+      </div>
+      <div id="status-badge" class="status-pill status-secure">SECURE</div>
+    </header>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="card-header">
+          <i data-lucide="cpu" class="icon-small"></i>
+          <span>Memory</span>
+        </div>
+        <div class="card-value" id="mem-value">--</div>
+        <div class="card-progress"><div id="mem-progress" class="fill"></div></div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="card-header">
+          <i data-lucide="layers" class="icon-small"></i>
+          <span>DOM Nodes</span>
+        </div>
+        <div class="card-value" id="dom-value">--</div>
+        <div class="card-meta" id="dom-status">Stable Engine</div>
+      </div>
+    </div>
+
+    <div class="quick-info">
+      <div class="info-item">
+        <i data-lucide="shield-check" class="icon-xs"></i>
+        <span>Security Score: <strong id="security-score">100/100</strong></span>
+      </div>
+      <div class="info-item">
+        <i data-lucide="zap" class="icon-xs"></i>
+        <span>Network Activity: <strong id="network-requests">0 requests</strong></span>
+      </div>
+    </div>
+
+    <button id="open-dashboard" class="btn-primary">
+      <span>OPEN MASTER DASHBOARD</span>
+      <i data-lucide="external-link" class="icon-sm"></i>
+    </button>
+
+    <footer class="mini-footer">
+      <div class="hibernation-hint">
+        <i data-lucide="moon" class="icon-xs"></i>
+        <span>Press <strong>Zzz</strong> in Control Center to hibernate</span>
+      </div>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

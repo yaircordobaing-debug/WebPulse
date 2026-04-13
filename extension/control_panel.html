@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebPulse Guardian | Master Dashboard</title>
+    <link rel="stylesheet" href="control_panel.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="deck-theme">
+    <div class="deck-container">
+        <!-- Sidebar Navigation -->
+        <aside class="deck-sidebar">
+            <div class="sidebar-top">
+                <div class="deck-logo">
+                    <div class="icon-orb"></div>
+                    <span>WebPulse <strong>2.0</strong></span>
+                </div>
+                <nav class="deck-nav">
+                    <ul>
+                        <li class="active" data-section="overview">
+                            <i data-lucide="layout-dashboard"></i>
+                            <span data-i18n="nav_overview">Overview</span>
+                        </li>
+                        <li data-section="tabs">
+                            <i data-lucide="monitor"></i>
+                            <span data-i18n="nav_live">Live Monitor</span>
+                        </li>
+                        <li data-section="extensions">
+                            <i data-lucide="puzzle"></i>
+                            <span data-i18n="nav_ext">Extensions</span>
+                        </li>
+                        <li data-section="cookies">
+                            <i data-lucide="database"></i>
+                            <span data-i18n="nav_storage">Storage</span>
+                        </li>
+                        <li data-section="settings">
+                            <i data-lucide="settings"></i>
+                            <span data-i18n="nav_settings">Settings</span>
+                        </li>
+                        <li data-section="help">
+                            <i data-lucide="help-circle"></i>
+                            <span data-i18n="nav_help">Engine Help</span>
+                        </li>
+                        <li data-section="timeline">
+                            <i data-lucide="history"></i>
+                            <span data-i18n="nav_forensics">Forensics</span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <div class="pro-card">
+                    <div class="pro-icon"><i data-lucide="shield"></i></div>
+                    <div class="pro-text">
+                        <strong>Engine 2.0</strong>
+                        <p data-i18n="sidebar_autonomous">Fully Autonomous</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="deck-main">
+            <header class="deck-header">
+                <div class="header-left">
+                    <h1 id="view-title">Guardian Report</h1>
+                    <p id="view-subtitle">Analysis Suite v2.0.5</p>
+                </div>
+                <div class="header-right">
+                    <div class="lang-toggle-box">
+                        <button class="btn-lang active" data-lang="en">EN</button>
+                        <button class="btn-lang" data-lang="es">ES</button>
+                    </div>
+                    <div class="profile-pill">
+                        <div class="avatar">YG</div>
+                        <span>Security Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="deck-content">
+                <!-- Overview Section -->
+                <section id="overview-section" class="active-pane">
+                    <div class="stats-grid">
+                        <div class="stat-box primary drill-down" data-type="sessions">
+                            <div class="box-icon"><i data-lucide="activity"></i></div>
+                            <div class="box-data">
+                                <label data-i18n="stat_sessions">Active Sessions</label>
+                                <h2 id="total-tabs">--</h2>
+                            </div>
+                        </div>
+                        <div class="stat-box success drill-down" data-type="security">
+                            <div class="box-icon"><i data-lucide="shield-check"></i></div>
+                            <div class="box-data">
+                                <label data-i18n="stat_security">Security Integrity</label>
+                                <h2 id="sec-integrity">100%</h2>
+                            </div>
+                        </div>
+                        <div class="stat-box warning drill-down" data-type="anomalies">
+                            <div class="box-icon"><i data-lucide="triangle-alert"></i></div>
+                            <div class="box-data">
+                                <label data-i18n="stat_anomalies">Anomalies</label>
+                                <h2 id="total-risks">--</h2>
+                            </div>
+                        </div>
+                        <div class="stat-box primary-light drill-down" data-type="optimization">
+                            <div class="box-icon"><i data-lucide="zap"></i></div>
+                            <div class="box-data">
+                                <label data-i18n="stat_optimization">Optimization</label>
+                                <h2 id="opt-value">94.2%</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="data-row">
+                        <div class="card card-wide">
+                            <div class="card-header">
+                                <h3 data-i18n="chart_tab_perf">Tab Performance</h3>
+                            </div>
+                            <div class="chart-area" id="main-chart">
+                                <div id="tabs-summary-list"></div>
+                            </div>
+                        </div>
+                        <div class="card card-narrow">
+                            <div class="card-header">
+                                <h3 data-i18n="chart_global_ram">Global RAM Usage</h3>
+                            </div>
+                            <div class="ram-gauge-container">
+                                <div class="circular-progress" id="ram-progress">
+                                    <svg viewBox="0 0 100 100">
+                                        <circle class="bg" cx="50" cy="50" r="45"></circle>
+                                        <circle class="fg" cx="50" cy="50" r="45" id="ram-circle"></circle>
+                                    </svg>
+                                    <div class="progress-info">
+                                        <span id="ram-pct">0%</span>
+                                        <label data-i18n="ram_used">Browser RAM</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-header" style="margin-top: 20px;">
+                                <h3 data-i18n="chart_risk_radar">Risk Radar</h3>
+                            </div>
+                            <div class="radar-view">
+                                <svg id="global-radar" width="220" height="180" viewBox="0 0 100 100"></svg>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Live Monitor Section -->
+                <section id="tabs-section">
+                    <div class="card full-card">
+                        <div class="card-header">
+                            <h3 data-i18n="live_stream_title">Live Monitoring Stream</h3>
+                            <button id="btn-hibernate-all" class="btn-primary-xs">
+                                <i data-lucide="moon"></i>
+                                <span data-i18n="btn_hibernate_all">Hibernate All Inactive</span>
+                            </button>
+                        </div>
+                        <div id="tabs-list" class="deck-list"></div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings-section">
+                    <div class="card full-card">
+                        <div class="card-header">
+                            <h3 data-i18n="settings_engine_title">Engine Sensitivity Settings</h3>
+                        </div>
+                        <div class="settings-body">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4 data-i18n="settings_sensitivity_label">Detection Sensitivity</h4>
+                                    <p data-i18n="settings_sensitivity_desc">Adjust how strictly the engine identifies security and performance risks.</p>
+                                </div>
+                                <div class="sensitivity-picker">
+                                    <button class="btn-sens" data-level="low" data-i18n="sens_low">Safe</button>
+                                    <button class="btn-sens active" data-level="mid" data-i18n="sens_mid">Standard</button>
+                                    <button class="btn-sens" data-level="high" data-i18n="sens_high">Aggressive</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Help Section / Manual -->
+                <section id="help-section">
+                    <div class="card full-card">
+                        <div class="card-header">
+                            <h3 data-i18n="help_manual_title">WebPulse Guardian Manual</h3>
+                        </div>
+                        <div class="help-content" id="manual-container"></div>
+                    </div>
+                </section>
+
+                <section id="extensions-section">
+                    <div id="extensions-list" class="deck-grid"></div>
+                </section>
+                
+                <section id="cookies-section">
+                    <div id="cookies-list" class="deck-list"></div>
+                </section>
+
+                <section id="timeline-section">
+                    <div id="timeline-list" class="timeline-deck"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Drill-down Modal -->
+    <div id="stat-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Details</h3>
+                <button id="close-modal"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Floating Chat bubble -->
+    <div id="chat-widget" class="chat-bubble">
+        <i data-lucide="message-square"></i>
+    </div>
+
+    <div id="chat-window" class="chat-window hidden">
+        <div class="chat-header">
+            <span data-i18n="chat_title">Guardian Assistant</span>
+            <button id="close-chat"><i data-lucide="x"></i></button>
+        </div>
+        <div class="chat-messages" id="chat-msgs">
+            <div class="bot-msg" data-i18n="chat_welcome">Hello! How can I help you optimize your browser today?</div>
+        </div>
+        <div class="chat-actions">
+            <button class="chat-q" data-q="q1" data-i18n="chat_q1">What is Risk Radar?</button>
+            <button class="chat-q" data-q="q2" data-i18n="chat_q2">How to hibernate tabs?</button>
+            <button class="chat-q" data-q="q3" data-i18n="chat_q3">Is it safe?</button>
+        </div>
+    </div>
+
+    <script src="control_panel.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

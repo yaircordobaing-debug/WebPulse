@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --primary: #5e5ce6;
+  --secondary: #94a3b8;
+  --bg-app: #0a0c12;
+  --bg-card: rgba(19, 23, 31, 1);
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --secure: #2bd47d;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 360px;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, sans-serif;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.sentinel-app {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Header Section */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pulse-indicator {
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  position: relative;
+}
+
+.pulse-indicator::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+.titles h1 {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.titles h1 span {
+  color: var(--primary);
+}
+
+.titles p {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.status-pill {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+  background: rgba(255,255,255,0.05);
+}
+
+.status-secure {
+  background: rgba(43, 212, 125, 0.12);
+  color: #2bd47d;
+  border: 1px solid rgba(43, 212, 125, 0.2);
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.metric-card {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-dim);
+  font-size: 10px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.icon-small {
+  width: 14px;
+  height: 14px;
+}
+
+.card-value {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.card-progress {
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.card-progress .fill {
+  height: 100%;
+  background: var(--primary);
+  width: 0%;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 10px var(--primary);
+}
+
+.card-meta {
+  font-size: 10px;
+  color: var(--secure);
+  font-weight: 700;
+}
+
+/* Quick Info */
+.quick-info {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.info-item span {
+  color: var(--text-dim);
+}
+
+.info-item strong {
+  color: #fff;
+  float: right;
+}
+
+.icon-xs {
+  width: 12px;
+  height: 12px;
+  color: var(--primary);
+}
+
+/* Primary Button */
+.btn-primary {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(94, 92, 230, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.icon-sm {
+  width: 14px;
+  height: 14px;
+}
+
+/* Footer */
+.mini-footer {
+  text-align: center;
+  padding-top: 4px;
+}
+
+.hibernation-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.03);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
