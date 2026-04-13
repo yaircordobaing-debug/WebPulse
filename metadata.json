@@ -1,0 +1,5 @@
+{
+  "name": "WebPulse Guardian",
+  "description": "Advanced browser observability and security extension for Chromium-based browsers.",
+  "requestFramePermissions": []
+}
