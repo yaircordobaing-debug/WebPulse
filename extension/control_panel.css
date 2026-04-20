@@ -320,6 +320,17 @@ section.active-pane { display: block; }
 .item-data strong { color: #fff; font-size: 14px; }
 .item-data p { font-size: 11px; color: var(--text-dim); }
 
+.status-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+}
+
+.status-label.protected { color: var(--primary); }
+.status-label.warning { color: var(--warning); }
+.status-label.info { color: #38bdf8; }
+
 .btn-zzz {
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
@@ -819,3 +830,29 @@ input:checked + .slider:before { transform: translateX(20px); background-color: 
     height: 20px;
     display: block;
 }
+
+/* Recommendations & Sparklines */
+.recommendations-grid {
+    padding: 10px 0;
+}
+
+.rec-card {
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.rec-card:hover {
+    background: rgba(255,255,255,0.05) !important;
+    transform: translateX(4px);
+}
+
+#cpu-sparkline {
+    background: rgba(0,0,0,0.2);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 10px;
+}
+
+.event-entry.severity-danger { border-left: 3px solid var(--danger); }
+.event-entry.severity-warning { border-left: 3px solid var(--warning); }
+.event-entry.severity-success { border-left: 3px solid var(--success); }

@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebPulse Guardian - Sentinel</title>
+  <title>WebPulse Guardian 2.1</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <div class="sentinel-app">
@@ -14,57 +12,99 @@
       <div class="brand-info">
         <div class="pulse-indicator"></div>
         <div class="titles">
-          <h1>WebPulse Guardian <span>2.0</span></h1>
-          <p id="page-domain">Scanning page...</p>
+          <h1>WebPulse <span>Guardian</span></h1>
+          <p id="page-domain">Analizando página...</p>
         </div>
       </div>
-      <div id="status-badge" class="status-pill status-secure">SECURE</div>
+      <div id="status-badge" class="status-pill status-init">INICIO</div>
     </header>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          CPU Sistema
+        </div>
+        <div class="kpi-val" id="sys-cpu">--%</div>
+        <div class="kpi-bar"><div id="bar-cpu" class="kpi-fill"></div></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          RAM Global
+        </div>
+        <div class="kpi-val" id="sys-ram">--%</div>
+        <div class="kpi-bar"><div id="bar-ram" class="kpi-fill kpi-fill--ram"></div></div>
+      </div>
+    </div>
 
     <div class="metrics-grid">
       <div class="metric-card">
         <div class="card-header">
-          <i data-lucide="cpu" class="icon-small"></i>
-          <span>Memory</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M12 6v6l4 2"/></svg>
+          <span>Memoria JS</span>
         </div>
         <div class="card-value" id="mem-value">--</div>
         <div class="card-progress"><div id="mem-progress" class="fill"></div></div>
       </div>
-      
       <div class="metric-card">
         <div class="card-header">
-          <i data-lucide="layers" class="icon-small"></i>
-          <span>DOM Nodes</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Jitter CPU</span>
         </div>
-        <div class="card-value" id="dom-value">--</div>
-        <div class="card-meta" id="dom-status">Stable Engine</div>
+        <div class="card-value" id="jitter-value">--</div>
+        <div class="card-meta" id="jitter-status">UI Thread</div>
+      </div>
+    </div>
+
+    <!-- Web Vitals -->
+    <div class="vitals-panel">
+      <div class="vitals-title">Web Vitals</div>
+      <div class="vitals-chips">
+        <div class="vital-chip" id="chip-lcp">
+          <div class="chip-label">LCP</div>
+          <div class="chip-val" id="lcp-val">--</div>
+        </div>
+        <div class="vital-chip" id="chip-fid">
+          <div class="chip-label">FID</div>
+          <div class="chip-val" id="fid-val">--</div>
+        </div>
+        <div class="vital-chip" id="chip-cls">
+          <div class="chip-label">CLS</div>
+          <div class="chip-val" id="cls-val">--</div>
+        </div>
+        <div class="vital-chip" id="chip-load">
+          <div class="chip-label">Load</div>
+          <div class="chip-val" id="load-val">--</div>
+        </div>
       </div>
     </div>
 
     <div class="quick-info">
       <div class="info-item">
-        <i data-lucide="shield-check" class="icon-xs"></i>
-        <span>Security Score: <strong id="security-score">100/100</strong></span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5e5ce6" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Seguridad: <strong id="security-score">100/100</strong></span>
       </div>
       <div class="info-item">
-        <i data-lucide="zap" class="icon-xs"></i>
-        <span>Network Activity: <strong id="network-requests">0 requests</strong></span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5e5ce6" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>Red: <strong id="network-requests">0 recursos</strong></span>
+      </div>
+      <div class="info-item">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5e5ce6" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span>DOM: <strong id="dom-value">--</strong> nodos</span>
       </div>
     </div>
 
     <button id="open-dashboard" class="btn-primary">
-      <span>OPEN MASTER DASHBOARD</span>
-      <i data-lucide="external-link" class="icon-sm"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      ABRIR PANEL MAESTRO
     </button>
 
     <footer class="mini-footer">
-      <div class="hibernation-hint">
-        <i data-lucide="moon" class="icon-xs"></i>
-        <span>Press <strong>Zzz</strong> in Control Center to hibernate</span>
-      </div>
+      <span id="tab-count-label">Monitoreando...</span>
     </footer>
   </div>
   <script src="popup.js"></script>
-  <script>lucide.createIcons();</script>
 </body>
 </html>

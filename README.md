@@ -1,18 +1,21 @@
-# 🛡️ WebPulse Guardian v2.0.7
+# 🛡️ WebPulse Guardian v2.1.0
 
 ### **Next-Gen Autonomous Observability & Security Suite**
 
-WebPulse Guardian is a high-performance browser extension designed to provide **real-time resource telemetry** and **autonomous threat mitigation**. Featuring a 5-axis Risk Radar engine, it identifies performance bottlenecks, security loopholes, and memory leaks before they impact your browsing experience.
+WebPulse Guardian is a professional-grade browser extension designed to provide **real-time resource telemetry**, **system-level monitoring**, and **autonomous optimization**. Featuring a 5-axis Risk Radar engine, it identifies performance bottlenecks, security loopholes, and memory leaks before they impact your system.
 
 ---
 
-## 🚀 Key Features
+## 🚀 Key Features v2.1.0
 
-*   **📊 Autonomous 5-Axis Risk Radar:** Real-time visualization of CPU, RAM, DOM Nodes, Network Traffic, and Security Integrity.
-*   **🧠 Intelligent Memory Engine:** Predictive detection of memory leaks with automated "Hibernate" capabilities to reclaim system resources.
-*   **🛡️ Sentinel Pro Modal:** An in-page interactive dashboard providing instant telemetry without leaving your current tab.
-*   **🌍 Multi-Tab Observability:** Centralized master dashboard to manage all active sessions, extensions, and storage.
-*   **🌐 Internationalization:** Full localized support for both **English** and **Español**.
+*   **📊 System-Level Monitoring:** Real-time tracking of System CPU and RAM usage via native Chrome APIs.
+*   **⚡ Web Vitals Integration:** Comprehensive monitoring of **LCP (Largest Contentful Paint)**, **FID (First Input Delay)**, and **CLS (Cumulative Layout Shift)**.
+*   **🧠 Intelligent Recommendations Engine:** Autonomous generation of optimization suggestions based on live browsing behavior.
+*   **🔔 Smart Notifications:** Real-time alerts for high CPU/RAM usage and critical tab risks.
+*   **🧠 Predictive Memory Engine:** Advanced detection of memory leaks with automated hibernation.
+*   **🛡️ Sentinel Pro Modal:** An in-page glassmorphic dashboard for instant page telemetry.
+*   **📈 Sparkline Visualization:** Real-time performance charts for a deeper understanding of resource trends.
+*   **🌐 Internationalization:** Full support for **English** and **Español**.
 
 ---
 
@@ -20,7 +23,7 @@ WebPulse Guardian is a high-performance browser extension designed to provide **
 
 *   **Frontend:** Vanilla JS / CSS3 (Glassmorphic Design) / HTML5
 *   **Icons:** Lucide Icons
-*   **APIs:** Chrome Extensions API (Tabs, Storage, Runtime, Management)
+*   **APIs:** Chrome Extensions API (System CPU, System Memory, Tabs, Storage, Alarms, Notifications)
 *   **Engine:** Synthetic Heuristics & Dynamic Risk Scoring
 
 ---
@@ -37,19 +40,6 @@ WebPulse Guardian is a high-performance browser extension designed to provide **
     Toggle the switch in the top-right corner.
 4.  **Load Unpacked:**
     Click "Load unpacked" and select the `extension` folder from this repository.
-
----
-
-## 📝 Documentación en Español
-
-### **Suite de Observabilidad Autónoma de Próxima Generación**
-
-WebPulse Guardian es una extensión de navegador de alto rendimiento diseñada para proporcionar **telemetría de recursos en tiempo real** y **mitigación autónoma de amenazas**.
-
-**Funciones Principales:**
-- **Radar de Riesgo:** Visualización de 5 ejes para CPU, RAM, DOM, Red y Seguridad.
-- **Motor de Memoria:** Detección predictiva de fugas de memoria.
-- **Sentinel Modal:** Panel interactivo inyectado en la página para análisis rápido.
 
 ---
 

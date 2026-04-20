@@ -1,78 +1,140 @@
 /**
- * WebPulse Guardian Sentinel - Popup Logic v2.0.4
+ * WebPulse Guardian 2.1.0 — Popup Script
  */
-
 document.addEventListener('DOMContentLoaded', () => {
-    // UI References
-    const memVal = document.getElementById('mem-value');
-    const memProgress = document.getElementById('mem-progress');
-    const domVal = document.getElementById('dom-value');
-    const domainText = document.getElementById('page-domain');
-    const statusBadge = document.getElementById('status-badge');
-    const dashboardBtn = document.getElementById('open-dashboard');
+  const $ = id => document.getElementById(id);
 
-    if (!dashboardBtn) {
-        console.error("Dashboard button not found in popup.html");
-        return;
-    }
+  function setVitalChip(chipId, valId, value, low, high, fmt) {
+    const chip = $(chipId);
+    const el = $(valId);
+    if (!chip || !el) return;
+    el.textContent = value > 0 ? fmt(value) : '--';
+    chip.className = 'vital-chip ' +
+      (value === 0 ? '' : value < low ? 'good' : value < high ? 'warn' : 'bad');
+  }
 
-    /**
-     * Update UI with telemetry data
-     */
-    function updateTelemetry() {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            if (!tabs[0]) return;
-            const activeTab = tabs[0];
-            
-            try {
-                domainText.textContent = new URL(activeTab.url).hostname;
-            } catch(e) {
-                domainText.textContent = "WebPulse Browser";
-            }
+  function setBar(barId, pct, dangerAt) {
+    const bar = $(barId);
+    if (!bar) return;
+    bar.style.width = Math.min(100, pct) + '%';
+    bar.style.background = pct > dangerAt ? '#ff5c5c' : pct > dangerAt * 0.7 ? '#f59e0b' : 'var(--primary)';
+  }
 
-            chrome.runtime.sendMessage({ type: "GET_TAB_DATA", tabId: activeTab.id }, (data) => {
-                if (chrome.runtime.lastError) {
-                    console.debug("Background script unreachable yet...");
-                    return;
-                }
+  function updateSystemMetrics() {
+    chrome.runtime.sendMessage({ type: 'GET_SYSTEM_METRICS' }, (sys) => {
+      if (chrome.runtime.lastError || !sys) return;
 
-                if (data && data.analysis) {
-                    const usedMB = Math.round((data.memory?.usedJSHeapSize || 0) / 1024 / 1024);
-                    memVal.textContent = `${usedMB} MB`;
-                    const memPct = Math.min(100, (usedMB / 600) * 100);
-                    memProgress.style.width = `${memPct}%`;
-                    domVal.textContent = data.domNodes.toLocaleString();
+      // CPU del sistema
+      const cpuPct = sys.cpu?.usage ?? 0;
+      if ($('sys-cpu')) $('sys-cpu').textContent = cpuPct + '%';
+      setBar('bar-cpu', cpuPct, 80);
 
-                    // Security & Network
-                    const secScore = document.getElementById('security-score');
-                    const netReq = document.getElementById('network-requests');
-                    if (secScore) secScore.textContent = `${100 - Math.round(data.analysis.score / 2)}/100`;
-                    if (netReq) netReq.textContent = `${data.network?.requestCount || 0} reqs`;
+      // RAM del sistema
+      const ramPct = sys.memory?.usedPct ?? 0;
+      if ($('sys-ram')) $('sys-ram').textContent = ramPct + '%';
+      setBar('bar-ram', ramPct, 85);
 
-                    statusBadge.textContent = data.analysis.level === 'Low' ? 'SECURE' : data.analysis.level.toUpperCase();
-                    statusBadge.className = `status-pill status-${data.analysis.level.toLowerCase()}`;
-                } else {
-                    memVal.textContent = "Analyzing...";
-                }
-            });
-        });
-    }
-
-    // Event Listeners
-    dashboardBtn.addEventListener('click', () => {
-        dashboardBtn.style.opacity = "0.5";
-        dashboardBtn.innerText = "OPENING...";
-        
-        chrome.runtime.sendMessage({ type: "OPEN_DASHBOARD" }, (response) => {
-            if (chrome.runtime.lastError) {
-                alert("Please refresh the page to wake up the Guardian Engine.");
-                dashboardBtn.style.opacity = "1";
-                dashboardBtn.innerText = "OPEN MASTER DASHBOARD";
-            }
-        });
+      // Pestañas
+      const tc = sys.tabCount;
+      if ($('tab-count-label') && tc) {
+        $('tab-count-label').textContent = `${tc.total} pestañas · ${tc.discarded} hibernadas`;
+      }
     });
+  }
 
-    // Initial and periodic updates
-    updateTelemetry();
-    setInterval(updateTelemetry, 2500);
+  function updatePageMetrics() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (!tabs[0]) return;
+      const tab = tabs[0];
+
+      try {
+        $('page-domain').textContent = new URL(tab.url).hostname;
+      } catch {
+        $('page-domain').textContent = 'WebPulse Browser';
+      }
+
+      chrome.runtime.sendMessage({ type: 'GET_TAB_DATA', tabId: tab.id }, (data) => {
+        if (chrome.runtime.lastError || !data) {
+          if ($('mem-value')) $('mem-value').textContent = 'Analizando...';
+          return;
+        }
+
+        // Memoria JS
+        const usedMB = Math.round((data.memory?.usedJSHeapSize || 0) / 1024 / 1024);
+        const limitMB = Math.round((data.memory?.jsHeapSizeLimit || 0) / 1024 / 1024);
+        if ($('mem-value')) $('mem-value').textContent = `${usedMB} MB`;
+        setBar('mem-progress', limitMB ? (usedMB / limitMB * 100) : (usedMB / 600 * 100), 70);
+
+        // Jitter
+        const jitter = data.cpuJitter ?? 0;
+        if ($('jitter-value')) $('jitter-value').textContent = `${jitter.toFixed(1)}ms`;
+        if ($('jitter-status')) {
+          $('jitter-status').textContent = jitter < 16 ? '✓ Fluido' : jitter < 33 ? '⚠ Moderado' : '✗ Lento';
+          $('jitter-status').style.color = jitter < 16 ? 'var(--secure)' : jitter < 33 ? 'var(--warning)' : 'var(--danger)';
+        }
+
+        // DOM
+        if ($('dom-value')) $('dom-value').textContent = (data.domNodes || 0).toLocaleString();
+
+        // Red
+        const reqs = data.network?.requestCount ?? 0;
+        if ($('network-requests')) $('network-requests').textContent = `${reqs} recursos`;
+
+        // Security Score
+        if ($('security-score') && data.analysis) {
+          const sec = Math.max(0, 100 - Math.round(data.analysis.score));
+          $('security-score').textContent = `${sec}/100`;
+          $('security-score').style.color = sec > 70 ? 'var(--secure)' : sec > 40 ? 'var(--warning)' : 'var(--danger)';
+        }
+
+        // Status badge
+        const badge = $('status-badge');
+        if (badge && data.analysis) {
+          const lvl = data.analysis.level;
+          const labels = { Low: 'SEGURO', Medium: 'MODERADO', High: 'RIESGO', Critical: 'CRÍTICO' };
+          const classes = { Low: 'status-secure', Medium: 'status-warn', High: 'status-high', Critical: 'status-high' };
+          badge.textContent = labels[lvl] || lvl;
+          badge.className = 'status-pill ' + (classes[lvl] || 'status-init');
+        }
+
+        // Web Vitals
+        const wv = data.webVitals || {};
+        setVitalChip('chip-lcp', 'lcp-val', wv.lcp || 0, 2500, 4000, v => `${(v/1000).toFixed(1)}s`);
+        setVitalChip('chip-fid', 'fid-val', wv.fid || 0, 100, 300, v => `${Math.round(v)}ms`);
+        setVitalChip('chip-cls', 'cls-val', wv.cls || 0, 0.1, 0.25, v => v.toFixed(2));
+
+        const pl = data.pageLoad;
+        if (pl && $('load-val')) {
+          const loadMs = pl.domContentLoaded || pl.fullLoad || 0;
+          $('load-val').textContent = loadMs > 0 ? `${(loadMs/1000).toFixed(1)}s` : '--';
+          const chipLoad = $('chip-load');
+          if (chipLoad) chipLoad.className = 'vital-chip ' + (loadMs < 2000 ? 'good' : loadMs < 5000 ? 'warn' : 'bad');
+        }
+      });
+    });
+  }
+
+  // Event listeners
+  $('open-dashboard')?.addEventListener('click', () => {
+    const btn = $('open-dashboard');
+    btn.style.opacity = '0.6';
+    btn.textContent = 'ABRIENDO...';
+    chrome.runtime.sendMessage({ type: 'OPEN_DASHBOARD' }, () => {
+      if (chrome.runtime.lastError) {
+        btn.textContent = 'RECARGA LA PÁGINA';
+        btn.style.opacity = '1';
+      }
+    });
+  });
+
+  // Actualizar en ciclo
+  updateSystemMetrics();
+  updatePageMetrics();
+  const sysInterval = setInterval(updateSystemMetrics, 2000);
+  const pageInterval = setInterval(updatePageMetrics, 2500);
+
+  window.addEventListener('unload', () => {
+    clearInterval(sysInterval);
+    clearInterval(pageInterval);
+  });
 });

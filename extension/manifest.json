@@ -1,8 +1,13 @@
 {
   "manifest_version": 3,
   "name": "WebPulse Guardian",
-  "version": "1.0.0",
-  "description": "Advanced browser observability, performance monitoring, and security analysis.",
+  "version": "2.1.0",
+  "description": "Advanced real-time browser performance monitoring, Web Vitals tracking, security analysis, and intelligent optimization engine.",
+  "icons": {
+    "16": "webpulse_icon_128_1776037802458.png",
+    "48": "webpulse_icon_128_1776037802458.png",
+    "128": "webpulse_icon_128_1776037802458.png"
+  },
   "permissions": [
     "activeTab",
     "storage",
@@ -11,7 +16,9 @@
     "scripting",
     "tabs",
     "cookies",
-    "management"
+    "management",
+    "system.memory",
+    "system.cpu"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -20,13 +27,19 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "webpulse_icon_128_1776037802458.png",
+      "48": "webpulse_icon_128_1776037802458.png",
+      "128": "webpulse_icon_128_1776037802458.png"
+    }
   },
   "options_page": "control_panel.html",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
   ]
 }
